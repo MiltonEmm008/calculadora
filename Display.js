@@ -1,6 +1,3 @@
-// IMPORTA LA CLASE CALCULADORA
-import Calculadora from "./Calculadora.js";
-
 // EXPORTA LA CLASE DISPLAY
 export default class Display {
   constructor(displayValorAnterior, displayValorActual) {
@@ -19,7 +16,7 @@ export default class Display {
 
   // OBTIENE EL ULTIMO NUMERO DE LA EXPRESION
   obtenerNumero(expresion) {
-    const fragmentos = expresion.split(/[\+\-*\/]/);
+    const fragmentos = expresion.split(/[\+\-\*\/]/);
     return fragmentos[fragmentos.length - 1];
   }
 
@@ -62,11 +59,41 @@ export default class Display {
 
   // CALCULA E IMPRIME EL RESULTADO DE LA EXPRESION
   imprimirResultado() {
-    this.valorActual = math.evaluate(this.valorActual).toString();
+    // VALIDAR SI LA EXPRESION ESTÁ CORRECTA
+    if (this.valorActual.trim() === "") {
+      this.displayValorAnterior.innerText = "Error: Vacío";
+      this.displayValorActual.innerText = "";
+      return;
+    }
 
-    console.log(this.valorActual);
-    this.displayValorAnterior.innerText = this.valorActual;
-    this.displayValorActual.innerText = "";
+    // VALIDAR SI LA EXPRESION TERMINA CON UN OPERADOR
+    if (
+      ["+", "-", "*", "/"].includes(
+        this.valorActual.trim().charAt(this.valorActual.trim().length - 1)
+      )
+    ) {
+      this.displayValorAnterior.innerText = "Error: Operador incompleto";
+      this.displayValorActual.innerText = "";
+      return;
+    }
+
+    try {
+      // EVALUAR LA EXPRESION Y MOSTRAR RESULTADO
+      this.valorActual = math.evaluate(this.valorActual).toString();
+
+      // VERIFICAR SI EL RESULTADO ES NaN
+      if (isNaN(this.valorActual)) {
+        this.valorActual = "Error: Expresión inválida";
+      }
+
+      console.log(this.valorActual);
+      this.displayValorAnterior.innerText = this.valorActual;
+      this.displayValorActual.innerText = "";
+    } catch (error) {
+      // MANEJAR ERRORES DE EVALUACION
+      this.displayValorAnterior.innerText = "Error: Expresión inválida";
+      this.displayValorActual.innerText = "";
+    }
   }
 
   // LIMPIA COMPLETAMENTE EL DISPLAY
