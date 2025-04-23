@@ -8,9 +8,6 @@ export default class Display {
     this.displayValorActual = displayValorActual;
     this.displayValorAnterior = displayValorAnterior;
 
-    // INSTANCIA DE LA CALCULADORA
-    this.calculador = new Calculadora();
-
     // VALOR ACTUAL DEL DISPLAY
     this.valorActual = "";
   }
@@ -22,7 +19,7 @@ export default class Display {
 
   // OBTIENE EL ULTIMO NUMERO DE LA EXPRESION
   obtenerNumero(expresion) {
-    const fragmentos = expresion.split(/[\+\-X\/]/);
+    const fragmentos = expresion.split(/[\+\-*\/]/);
     return fragmentos[fragmentos.length - 1];
   }
 
@@ -43,7 +40,7 @@ export default class Display {
     const ultimoChar = tokens[tokens.length - 1];
 
     // EVITA AGREGAR DOS OPERADORES SEGUIDOS
-    if (["X", "/", "+", "-"].includes(ultimoChar)) return;
+    if (["*", "/", "+", "-"].includes(ultimoChar)) return;
 
     this.valorActual += " " + operador + " ";
     this.imprimirValores();
@@ -51,6 +48,11 @@ export default class Display {
 
   // ACTUALIZA LOS VALORES DEL DISPLAY
   imprimirValores() {
+    if (this.displayValorAnterior.textContent === "NaN") {
+      this.valorActual = this.valorActual.replace("NaN", "");
+      this.displayValorAnterior.textContent = "";
+    }
+
     if (this.displayValorAnterior.textContent !== "") {
       this.displayValorAnterior.textContent = "";
     }
@@ -60,9 +62,7 @@ export default class Display {
 
   // CALCULA E IMPRIME EL RESULTADO DE LA EXPRESION
   imprimirResultado() {
-    this.valorActual = this.calculador
-      .evaluarExpresion(this.valorActual)
-      .toString();
+    this.valorActual = math.evaluate(this.valorActual).toString();
 
     console.log(this.valorActual);
     this.displayValorAnterior.innerText = this.valorActual;
@@ -78,6 +78,10 @@ export default class Display {
 
   // BORRA EL ULTIMO CARACTER DE LA EXPRESION
   borrar() {
+    if (this.displayValorAnterior.textContent === "NaN") {
+      this.valorActual = "";
+      this.displayValorAnterior.textContent = "";
+    }
     this.valorActual = this.valorActual.substring(
       0,
       this.valorActual.length - 1

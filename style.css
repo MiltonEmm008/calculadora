@@ -95,3 +95,70 @@ button:focus {
 .col-2 {
   grid-column: span 2;
 }
+
+/* MEDIA QUERIES PARA ADAPTAR LA CALCULADORA A DIFERENTES TAMAÑOS DE PANTALLA */
+
+/* PANTALLAS DE TABLETAS Y TELEFONOS GRANDES (<= 768px) */
+@media screen and (max-width: 768px) {
+  .calculadora {
+    grid-template-columns: repeat(4, 60px); /* REDUCIR ANCHO DE LAS COLUMNAS */
+    grid-template-rows: 100px repeat(5, 60px); /* REDUCIR ALTO DEL DISPLAY Y BOTONES */
+    padding: 16px; /* REDUCIR ESPACIO INTERNO */
+    gap: 4px; /* REDUCIR SEPARACION ENTRE BOTONES */
+  }
+
+  button {
+    font-size: 1.2em; /* REDUCIR TAMAÑO DE FUENTE DE LOS BOTONES */
+  }
+
+  #valor-anterior {
+    font-size: 1.6em; /* REDUCIR TAMAÑO DE FUENTE DEL DISPLAY */
+  }
+
+  #valor-actual {
+    font-size: 1.2em;
+  }
+}
+
+/* PANTALLAS DE CELULARES PEQUEÑOS (<= 480px) */
+@media screen and (max-width: 480px) {
+  .calculadora {
+    grid-template-columns: repeat(4, 50px); /* AUN MAS PEQUEÑO EN CELULARES */
+    grid-template-rows: 80px repeat(5, 50px);
+    padding: 12px;
+    gap: 3px;
+  }
+
+  button {
+    font-size: 1em;
+    border-radius: 10px; /* REDUCIR BORDES REDONDEADOS */
+  }
+
+  #valor-anterior {
+    font-size: 1.2em;
+  }
+
+  #valor-actual {
+    font-size: 0.9em;
+  }
+}
+
+/* PANTALLAS MUY PEQUEÑAS (<= 360px) */
+@media screen and (max-width: 360px) {
+  .calculadora {
+    grid-template-columns: repeat(4, 45px);
+    grid-template-rows: 70px repeat(5, 45px);
+  }
+
+  button {
+    font-size: 0.9em;
+  }
+
+  #valor-anterior {
+    font-size: 1.2em;
+  }
+
+  #valor-actual {
+    font-size: 0.9em;
+  }
+}
